@@ -8,731 +8,455 @@
   @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap');
 
   :root {
-    --bg: #1a1510;
-    --surface: #221e17;
-    --surface2: #2e2820;
-    --gold: #c9a84c;
-    --gold-dim: #7a6230;
-    --text: #e8dfc8;
-    --text-dim: #8a7f68;
-    --red: #c0392b;
-    --green: #27ae60;
-    --blue: #2980b9;
-    --border: #3d3526;
+    --bg:#1a1510; --surface:#221e17; --surface2:#2e2820;
+    --gold:#c9a84c; --gold-dim:#7a6230;
+    --text:#e8dfc8; --text-dim:#8a7f68; --border:#3d3526;
   }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { font-family:'DM Sans',sans-serif; background:var(--bg); color:var(--text); min-height:100vh; display:flex; flex-direction:column; }
 
-  * { box-sizing: border-box; margin: 0; padding: 0; }
+  header { padding:14px 18px; border-bottom:1px solid var(--border); display:flex; align-items:center; gap:10px; background:var(--surface); flex-shrink:0; }
+  header h1 { font-family:'Playfair Display',serif; font-size:1.15rem; color:var(--gold); }
+  #header-info { font-size:0.75rem; color:var(--text-dim); margin-left:auto; }
 
-  body {
-    font-family: 'DM Sans', sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-  }
+  .btn { background:var(--gold); color:#1a1510; border:none; border-radius:8px; padding:12px 22px; font-family:'DM Sans',sans-serif; font-weight:500; font-size:0.92rem; cursor:pointer; transition:opacity .15s; }
+  .btn:hover { opacity:.85; } .btn:disabled { opacity:.4; cursor:not-allowed; }
+  .btn-ghost { background:transparent; border:1px solid var(--border); color:var(--text-dim); border-radius:8px; padding:9px 16px; font-family:'DM Sans',sans-serif; font-size:0.82rem; cursor:pointer; transition:all .15s; }
+  .btn-ghost:hover { border-color:var(--gold-dim); color:var(--text); }
+  .btn-danger { background:transparent; border:1px solid #7a2020; color:#c06060; border-radius:8px; padding:7px 14px; font-size:0.78rem; cursor:pointer; transition:all .15s; }
+  .btn-danger:hover { background:#7a202022; }
 
-  header {
-    padding: 18px 24px;
-    border-bottom: 1px solid var(--border);
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    background: var(--surface);
-  }
+  input[type=file] { display:none; }
+  input[type=range] { accent-color:var(--gold); flex:1; min-width:80px; }
+  ::-webkit-scrollbar { width:5px; } ::-webkit-scrollbar-track { background:transparent; } ::-webkit-scrollbar-thumb { background:var(--border); border-radius:3px; }
 
-  header h1 {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.4rem;
-    color: var(--gold);
-    letter-spacing: 0.02em;
-  }
+  /* ── PANTALLAS ── */
+  .screen { display:none; flex:1; flex-direction:column; }
+  .screen.active { display:flex; }
+  .screen-scroll { overflow-y:auto; padding:20px 18px; gap:18px; max-width:580px; margin:0 auto; width:100%; display:flex; flex-direction:column; }
 
-  header span {
-    font-size: 0.8rem;
-    color: var(--text-dim);
-    margin-left: auto;
-  }
+  /* ── BIBLIOTECA ── */
+  #screen-library { }
+  .library-header { padding:18px 18px 0; display:flex; align-items:center; justify-content:space-between; }
+  .library-header h2 { font-family:'Playfair Display',serif; font-size:1.1rem; color:var(--gold); }
+  .obra-list { padding:12px 18px; display:flex; flex-direction:column; gap:10px; }
+  .obra-card { background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:14px 16px; display:flex; align-items:center; gap:12px; cursor:pointer; transition:background .15s; }
+  .obra-card:hover { background:var(--surface2); border-color:var(--gold-dim); }
+  .obra-card .obra-icon { font-size:1.6rem; flex-shrink:0; }
+  .obra-card .obra-info { flex:1; min-width:0; }
+  .obra-card .obra-title { font-weight:500; font-size:0.95rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .obra-card .obra-meta { font-size:0.75rem; color:var(--text-dim); margin-top:2px; }
+  .obra-card .obra-actions { display:flex; gap:6px; }
+  .empty-library { padding:40px 18px; text-align:center; color:var(--text-dim); font-size:0.88rem; line-height:1.8; }
+  .empty-library .big { font-size:2.5rem; margin-bottom:12px; }
 
-  /* ───── PANTALLA DE CARGA ───── */
-  #screen-load {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 32px 20px;
-    gap: 28px;
-  }
+  /* ── CARGA ── */
+  #screen-load .screen-scroll { justify-content:center; min-height:calc(100vh - 52px); }
+  .load-title { font-family:'Playfair Display',serif; font-size:1.4rem; color:var(--gold); text-align:center; }
+  .load-sub { font-size:0.82rem; color:var(--text-dim); text-align:center; line-height:1.6; }
+  textarea#paste-area { width:100%; height:160px; background:var(--surface); border:1px solid var(--border); border-radius:10px; color:var(--text); font-family:'DM Sans',sans-serif; font-size:0.82rem; padding:12px; resize:vertical; outline:none; }
+  textarea#paste-area:focus { border-color:var(--gold-dim); }
+  textarea#paste-area::placeholder { color:var(--text-dim); }
+  #obra-name-input { width:100%; background:var(--surface); border:1px solid var(--border); border-radius:8px; color:var(--text); font-family:'DM Sans',sans-serif; font-size:0.9rem; padding:11px 14px; outline:none; }
+  #obra-name-input:focus { border-color:var(--gold-dim); }
 
-  .load-title {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.6rem;
-    color: var(--gold);
-    text-align: center;
-  }
+  /* ── TUTORIAL ── */
+  .tutorial-box { background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:16px; font-size:0.82rem; color:var(--text-dim); line-height:1.8; }
+  .tutorial-box b { color:var(--gold); }
+  .tutorial-box code { background:var(--surface2); padding:2px 6px; border-radius:4px; font-size:0.8rem; color:var(--text); }
+  details summary { cursor:pointer; color:var(--gold); font-size:0.85rem; margin-bottom:8px; list-style:none; }
+  details summary::before { content:'▶ '; font-size:0.7rem; }
+  details[open] summary::before { content:'▼ '; }
 
-  .load-subtitle {
-    font-size: 0.85rem;
-    color: var(--text-dim);
-    text-align: center;
-    max-width: 360px;
-    line-height: 1.6;
-  }
+  /* ── CONFIG ── */
+  .sec-title { font-family:'Playfair Display',serif; font-size:0.95rem; color:var(--gold); margin-bottom:10px; }
+  .chips { display:flex; flex-wrap:wrap; gap:7px; }
+  .chip { padding:6px 13px; border-radius:20px; border:1px solid var(--border); background:var(--surface); color:var(--text-dim); font-size:0.8rem; cursor:pointer; transition:all .15s; user-select:none; }
+  .chip:hover { border-color:var(--gold-dim); color:var(--text); }
+  .chip.active { background:var(--gold); color:#1a1510; border-color:var(--gold); font-weight:500; }
+  .scene-list { display:flex; flex-direction:column; gap:5px; max-height:220px; overflow-y:auto; }
+  .scene-item { display:flex; align-items:center; gap:9px; padding:8px 12px; border-radius:8px; border:1px solid var(--border); background:var(--surface); font-size:0.82rem; cursor:pointer; }
+  .scene-item:hover { background:var(--surface2); }
+  .scene-item.active { border-color:var(--gold-dim); background:var(--surface2); }
+  .scene-item input[type=checkbox] { accent-color:var(--gold); flex-shrink:0; }
+  .scene-actions { display:flex; gap:7px; margin-bottom:7px; }
+  .opt-row { display:flex; align-items:center; gap:10px; flex-wrap:wrap; font-size:0.82rem; }
+  .opt-row label { color:var(--text-dim); white-space:nowrap; }
+  .opt-val { color:var(--gold); min-width:36px; font-size:0.82rem; }
+  .toggle { width:40px; height:22px; background:var(--border); border-radius:11px; position:relative; cursor:pointer; transition:background .2s; flex-shrink:0; }
+  .toggle.on { background:var(--gold); }
+  .toggle::after { content:''; position:absolute; width:16px; height:16px; background:white; border-radius:50%; top:3px; left:3px; transition:transform .2s; }
+  .toggle.on::after { transform:translateX(18px); }
+  .config-footer { display:flex; justify-content:space-between; align-items:center; padding-top:10px; border-top:1px solid var(--border); }
 
-  input[type=file] { display: none; }
+  /* ── ENSAYO ── */
+  #screen-rehearsal { overflow:hidden; }
+  .progress-bar { height:3px; background:var(--border); flex-shrink:0; }
+  .progress-fill { height:100%; background:var(--gold); transition:width .4s; }
+  .rehearsal-body { flex:1; overflow-y:auto; padding:16px 14px 100px; display:flex; flex-direction:column; gap:12px; }
 
-  textarea#paste-area {
-    width: 100%;
-    max-width: 480px;
-    height: 140px;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    color: var(--text);
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.85rem;
-    padding: 14px;
-    resize: vertical;
-    outline: none;
-  }
+  .bubble-other { background:var(--surface); border:1px solid var(--border); border-radius:4px 12px 12px 12px; padding:10px 14px; max-width:90%; align-self:flex-start; animation:fadeIn .2s ease; }
+  .bubble-other .char-name { font-size:0.68rem; font-weight:500; color:var(--gold); text-transform:uppercase; letter-spacing:.08em; margin-bottom:4px; }
+  .bubble-other .char-text { font-size:0.9rem; line-height:1.6; }
 
-  textarea#paste-area:focus { border-color: var(--gold-dim); }
-  textarea#paste-area::placeholder { color: var(--text-dim); }
+  .scene-marker { text-align:center; color:var(--text-dim); font-size:0.7rem; text-transform:uppercase; letter-spacing:.12em; padding:5px 0; border-top:1px solid var(--border); border-bottom:1px solid var(--border); margin:4px 0; }
 
-  .btn {
-    background: var(--gold);
-    color: #1a1510;
-    border: none;
-    border-radius: 8px;
-    padding: 12px 28px;
-    font-family: 'DM Sans', sans-serif;
-    font-weight: 500;
-    font-size: 0.95rem;
-    cursor: pointer;
-    transition: opacity 0.15s;
-  }
+  .my-turn-panel { background:linear-gradient(135deg,#2a2010,#1e1a0e); border:1px solid var(--gold-dim); border-radius:12px; padding:16px; margin:6px 0; animation:fadeIn .25s ease; }
+  .my-turn-label { font-size:0.68rem; color:var(--gold); text-transform:uppercase; letter-spacing:.1em; margin-bottom:8px; display:flex; align-items:center; gap:7px; }
+  .dot-pulse { width:7px; height:7px; background:var(--gold); border-radius:50%; animation:pulse 1.2s infinite; flex-shrink:0; }
 
-  .btn:hover { opacity: 0.85; }
-  .btn:disabled { opacity: 0.4; cursor: not-allowed; }
+  /* Modos de texto */
+  .my-turn-text { font-family:'Playfair Display',serif; font-size:1rem; line-height:1.75; margin-bottom:14px; }
+  .my-turn-text.mode-normal { color:var(--text); }
+  .my-turn-text.mode-hidden { filter:blur(5px); user-select:none; }
+  .my-turn-text.mode-initials { color:var(--text); letter-spacing:.08em; }
+  .my-turn-text .word-hint { color:var(--text-dim); font-size:0.85em; }
 
-  .btn-ghost {
-    background: transparent;
-    border: 1px solid var(--border);
-    color: var(--text-dim);
-    border-radius: 8px;
-    padding: 10px 20px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.85rem;
-    cursor: pointer;
-    transition: all 0.15s;
-  }
+  .done-btn { width:100%; background:var(--gold); color:#1a1510; border:none; border-radius:9px; padding:13px; font-family:'DM Sans',sans-serif; font-weight:500; font-size:0.9rem; cursor:pointer; transition:opacity .15s; }
+  .done-btn:hover { opacity:.85; }
 
-  .btn-ghost:hover { border-color: var(--gold-dim); color: var(--text); }
+  /* Footer fijo */
+  .rehearsal-footer { position:fixed; bottom:0; left:0; right:0; padding:9px 12px; padding-bottom:calc(9px + env(safe-area-inset-bottom)); border-top:1px solid var(--border); background:var(--surface); display:flex; align-items:center; gap:7px; flex-wrap:wrap; z-index:100; }
+  .ctrl-btn { background:var(--surface2); border:1px solid var(--border); color:var(--text); border-radius:7px; padding:8px 11px; font-size:0.78rem; cursor:pointer; transition:all .15s; white-space:nowrap; }
+  .ctrl-btn:hover { border-color:var(--gold-dim); color:var(--gold); }
+  .status-badge { margin-left:auto; font-size:0.72rem; color:var(--text-dim); background:var(--surface2); padding:4px 9px; border-radius:20px; border:1px solid var(--border); white-space:nowrap; }
 
-  /* ───── PANTALLA DE CONFIG ───── */
-  #screen-config {
-    display: none;
-    flex: 1;
-    flex-direction: column;
-    overflow-y: auto;
-    padding: 24px 20px;
-    gap: 24px;
-    max-width: 600px;
-    margin: 0 auto;
-    width: 100%;
-  }
-
-  .section-title {
-    font-family: 'Playfair Display', serif;
-    font-size: 1rem;
-    color: var(--gold);
-    margin-bottom: 12px;
-  }
-
-  .chips {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-  }
-
-  .chip {
-    padding: 7px 14px;
-    border-radius: 20px;
-    border: 1px solid var(--border);
-    background: var(--surface);
-    color: var(--text-dim);
-    font-size: 0.82rem;
-    cursor: pointer;
-    transition: all 0.15s;
-    user-select: none;
-  }
-
-  .chip:hover { border-color: var(--gold-dim); color: var(--text); }
-
-  .chip.active {
-    background: var(--gold);
-    color: #1a1510;
-    border-color: var(--gold);
-    font-weight: 500;
-  }
-
-  .scene-list {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    max-height: 220px;
-    overflow-y: auto;
-  }
-
-  .scene-item {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 9px 12px;
-    border-radius: 8px;
-    border: 1px solid var(--border);
-    background: var(--surface);
-    cursor: pointer;
-    transition: background 0.15s;
-    font-size: 0.85rem;
-  }
-
-  .scene-item:hover { background: var(--surface2); }
-  .scene-item.active { border-color: var(--gold-dim); background: var(--surface2); }
-
-  .scene-item input[type=checkbox] { accent-color: var(--gold); }
-
-  .scene-actions {
-    display: flex;
-    gap: 8px;
-    margin-bottom: 8px;
-  }
-
-  .speed-row {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    flex-wrap: wrap;
-  }
-
-  .speed-row label { font-size: 0.85rem; color: var(--text-dim); }
-
-  input[type=range] {
-    accent-color: var(--gold);
-    flex: 1;
-    min-width: 100px;
-  }
-
-  .speed-val {
-    font-size: 0.85rem;
-    color: var(--gold);
-    min-width: 36px;
-  }
-
-  .toggle-row {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    font-size: 0.85rem;
-  }
-
-  .toggle {
-    width: 42px; height: 24px;
-    background: var(--border);
-    border-radius: 12px;
-    position: relative;
-    cursor: pointer;
-    transition: background 0.2s;
-    flex-shrink: 0;
-  }
-
-  .toggle.on { background: var(--gold); }
-
-  .toggle::after {
-    content: '';
-    position: absolute;
-    width: 18px; height: 18px;
-    background: white;
-    border-radius: 50%;
-    top: 3px; left: 3px;
-    transition: transform 0.2s;
-  }
-
-  .toggle.on::after { transform: translateX(18px); }
-
-  .config-footer {
-    display: flex;
-    justify-content: flex-end;
-    gap: 10px;
-    padding-top: 8px;
-    border-top: 1px solid var(--border);
-  }
-
-  /* ───── PANTALLA DE ENSAYO ───── */
-  #screen-rehearsal {
-    display: none;
-    flex: 1;
-    flex-direction: column;
-    overflow: hidden;
-  }
-
-  .progress-bar {
-    height: 3px;
-    background: var(--border);
-    position: relative;
-  }
-
-  .progress-fill {
-    height: 100%;
-    background: var(--gold);
-    transition: width 0.4s;
-  }
-
-  .rehearsal-body {
-    flex: 1;
-    overflow-y: auto;
-    padding: 20px 16px 90px 16px;
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-  }
-
-  /* Burbuja de otro personaje */
-  .bubble-other {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 4px 14px 14px 14px;
-    padding: 12px 16px;
-    max-width: 88%;
-    align-self: flex-start;
-    animation: fadeIn 0.25s ease;
-  }
-
-  .bubble-other .char-name {
-    font-size: 0.7rem;
-    font-weight: 500;
-    color: var(--gold);
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    margin-bottom: 6px;
-  }
-
-  .bubble-other .char-text {
-    font-size: 0.92rem;
-    line-height: 1.6;
-    color: var(--text);
-  }
-
-  /* Panel de turno del actor */
-  .my-turn-panel {
-    background: linear-gradient(135deg, #2a2010, #1e1a0e);
-    border: 1px solid var(--gold-dim);
-    border-radius: 14px;
-    padding: 20px;
-    margin: 10px 0;
-    animation: fadeIn 0.3s ease;
-  }
-
-  .my-turn-label {
-    font-size: 0.7rem;
-    color: var(--gold);
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    margin-bottom: 10px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .dot-pulse {
-    width: 8px; height: 8px;
-    background: var(--gold);
-    border-radius: 50%;
-    animation: pulse 1.2s infinite;
-  }
-
-  .my-turn-text {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.05rem;
-    line-height: 1.7;
-    color: var(--text);
-    margin-bottom: 16px;
-  }
-
-  .my-turn-text.hidden-text {
-    filter: blur(5px);
-    user-select: none;
-  }
-
-  .done-btn {
-    width: 100%;
-    background: var(--gold);
-    color: #1a1510;
-    border: none;
-    border-radius: 10px;
-    padding: 14px;
-    font-family: 'DM Sans', sans-serif;
-    font-weight: 500;
-    font-size: 0.95rem;
-    cursor: pointer;
-    transition: opacity 0.15s;
-  }
-
-  .done-btn:hover { opacity: 0.85; }
-
-  /* Acto / Escena marker */
-  .scene-marker {
-    text-align: center;
-    color: var(--text-dim);
-    font-size: 0.75rem;
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
-    padding: 6px 0;
-    border-top: 1px solid var(--border);
-    border-bottom: 1px solid var(--border);
-    margin: 8px 0;
-  }
-
-  /* Footer controles — fijo en la parte inferior */
-  .rehearsal-footer {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    padding: 10px 14px;
-    padding-bottom: calc(10px + env(safe-area-inset-bottom));
-    border-top: 1px solid var(--border);
-    background: var(--surface);
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    flex-wrap: wrap;
-    z-index: 100;
-  }
-
-  .ctrl-btn {
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    color: var(--text);
-    border-radius: 8px;
-    padding: 9px 14px;
-    font-size: 0.82rem;
-    cursor: pointer;
-    transition: all 0.15s;
-    white-space: nowrap;
-  }
-
-  .ctrl-btn:hover { border-color: var(--gold-dim); color: var(--gold); }
-  .ctrl-btn:disabled { opacity: 0.35; cursor: not-allowed; }
-
-  .status-badge {
-    margin-left: auto;
-    font-size: 0.75rem;
-    color: var(--text-dim);
-    background: var(--surface2);
-    padding: 5px 10px;
-    border-radius: 20px;
-    border: 1px solid var(--border);
-  }
+  /* Modal ir a escena */
+  .modal-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,.7); z-index:200; align-items:flex-end; justify-content:center; }
+  .modal-overlay.open { display:flex; }
+  .modal-box { background:var(--surface); border-top:1px solid var(--border); border-radius:16px 16px 0 0; width:100%; max-width:580px; padding:20px; max-height:70vh; display:flex; flex-direction:column; gap:10px; animation:slideUp .2s ease; }
+  .modal-title { font-family:'Playfair Display',serif; color:var(--gold); font-size:1rem; margin-bottom:4px; }
+  .modal-scene-list { overflow-y:auto; display:flex; flex-direction:column; gap:6px; }
+  .modal-scene-item { padding:10px 14px; border-radius:8px; border:1px solid var(--border); background:var(--bg); cursor:pointer; font-size:0.85rem; transition:background .15s; }
+  .modal-scene-item:hover { background:var(--surface2); border-color:var(--gold-dim); }
 
   /* Pantalla fin */
-  #screen-end {
-    display: none;
-    flex: 1;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    gap: 20px;
-    padding: 40px 20px;
-    text-align: center;
-  }
+  #screen-end { align-items:center; justify-content:center; text-align:center; gap:18px; padding:40px 20px; }
+  #screen-end h2 { font-family:'Playfair Display',serif; font-size:1.6rem; color:var(--gold); }
+  #screen-end p { color:var(--text-dim); font-size:0.88rem; }
+  .end-actions { display:flex; flex-direction:column; gap:10px; width:100%; max-width:320px; }
 
-  #screen-end h2 {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.8rem;
-    color: var(--gold);
-  }
-
-  #screen-end p { color: var(--text-dim); font-size: 0.9rem; }
-
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(6px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-
-  @keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50%       { opacity: 0.3; }
-  }
-
-  /* scrollbar */
-  ::-webkit-scrollbar { width: 6px; }
-  ::-webkit-scrollbar-track { background: transparent; }
-  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
-
-  .info-box {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 14px 16px;
-    font-size: 0.82rem;
-    color: var(--text-dim);
-    line-height: 1.6;
-  }
-
-  .info-box b { color: var(--text); }
+  @keyframes fadeIn { from{opacity:0;transform:translateY(5px)} to{opacity:1;transform:translateY(0)} }
+  @keyframes pulse  { 0%,100%{opacity:1} 50%{opacity:.3} }
+  @keyframes slideUp { from{transform:translateY(40px)} to{transform:translateY(0)} }
 </style>
 </head>
 <body>
 
 <header>
-  <span style="font-size:1.4rem">🎭</span>
-  <h1>Ensayo de Teatro</h1>
+  <span style="font-size:1.3rem">🎭</span>
+  <h1>Ensayo</h1>
   <span id="header-info"></span>
 </header>
 
-<!-- PANTALLA 1: CARGA -->
-<div id="screen-load" style="display:flex">
-  <div class="load-title">Carga tu guion</div>
-  <div class="load-subtitle">Copia el texto del guion y pégalo aquí abajo.<br>Formato: <b>NOMBRE .– texto</b></div>
-
-  <div style="width:100%;max-width:480px;display:flex;flex-direction:column;gap:10px;">
-
-    <button class="btn" id="btn-paste-clipboard" style="width:100%;font-size:1rem;padding:16px 22px;">
-      📋 Pegar desde portapapeles
-    </button>
-
-    <textarea id="paste-area" placeholder="… o toca aquí y mantén pulsado → Pegar" style="height:180px"></textarea>
-
-    <button class="btn-ghost" id="btn-pick-file" style="width:100%;text-align:center;padding:12px;">
-      📄 Seleccionar archivo (.txt / .pdf)
-    </button>
-    <input type="file" id="file-input" accept=".pdf,.txt">
-
+<!-- ── BIBLIOTECA ── -->
+<div id="screen-library" class="screen active">
+  <div class="library-header">
+    <h2>Mis obras</h2>
+    <button class="btn" id="btn-new-obra">+ Nueva obra</button>
   </div>
-
-  <button class="btn" id="btn-load" style="width:100%;max-width:480px;font-size:1rem;padding:16px 22px;">
-    Analizar guion →
-  </button>
-</div>
-
-<!-- PANTALLA 2: CONFIGURACIÓN -->
-<div id="screen-config">
-  <div>
-    <div class="section-title">¿Quién eres?</div>
-    <div class="chips" id="char-chips"></div>
+  <div class="obra-list" id="obra-list">
+    <!-- generado por JS -->
   </div>
-
-  <div>
-    <div class="section-title">Escenas a ensayar</div>
-    <div class="scene-actions">
-      <button class="btn-ghost" id="btn-all-scenes">Todas</button>
-      <button class="btn-ghost" id="btn-no-scenes">Ninguna</button>
-    </div>
-    <div class="scene-list" id="scene-list"></div>
-  </div>
-
-  <div>
-    <div class="section-title">Opciones</div>
-    <div style="display:flex;flex-direction:column;gap:14px">
-      <div class="speed-row">
-        <label>Velocidad de voz</label>
-        <input type="range" id="speed-range" min="0.6" max="1.8" step="0.05" value="1">
-        <span class="speed-val" id="speed-val">1.0×</span>
-      </div>
-      <div class="toggle-row">
-        <div class="toggle" id="toggle-hide"></div>
-        <span>Ocultar mi texto (modo memoria)</span>
-      </div>
-    </div>
-  </div>
-
-  <div class="info-box">
-    <b>Formato esperado:</b> cada réplica en una línea con <code>NOMBRE .– texto</code>.<br>
-    Las secciones <b>ACTO</b> y <b>ESCENA</b> se detectan automáticamente.
-  </div>
-
-  <div class="config-footer">
-    <button class="btn-ghost" id="btn-back-load">← Volver</button>
-    <button class="btn" id="btn-start">Comenzar ensayo →</button>
+  <div id="empty-library" class="empty-library" style="display:none">
+    <div class="big">🎭</div>
+    <div>Aún no tienes ninguna obra guardada.<br>Pulsa <b>+ Nueva obra</b> para empezar.</div>
   </div>
 </div>
 
-<!-- PANTALLA 3: ENSAYO -->
-<div id="screen-rehearsal">
+<!-- ── CARGA / NUEVA OBRA ── -->
+<div id="screen-load" class="screen">
+  <div class="screen-scroll">
+    <div class="load-title" id="load-title">Nueva obra</div>
+    <div>
+      <label style="font-size:0.82rem;color:var(--text-dim);display:block;margin-bottom:6px">Nombre de la obra</label>
+      <input type="text" id="obra-name-input" placeholder="Ej: Agosto, La gaviota…">
+    </div>
+
+    <details>
+      <summary>¿Cómo preparar el guion?</summary>
+      <div class="tutorial-box">
+        Cada réplica debe estar en <b>una sola línea</b> con el formato:<br>
+        <code>NOMBRE .– texto de la réplica</code><br><br>
+        Las secciones se marcan con:<br>
+        <code>PRÓLOGO</code> / <code>ACTO PRIMERO</code> / <code>ESCENA PRIMERA</code><br><br>
+        <b>Ejemplo:</b><br>
+        <code>PRÓLOGO</code><br>
+        <code>BEVERLY .– Qué larga es la vida…</code><br>
+        <code>VIOLET .– ¡Hijo de puta!</code><br><br>
+        Si tienes el guion en PDF, puedes copiarlo y pegarlo abajo. Si hay errores de OCR en los nombres, corrígelos en el texto antes de analizar.
+      </div>
+    </details>
+
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <button class="btn" id="btn-paste-clipboard" style="width:100%;padding:14px;font-size:0.95rem">
+        📋 Pegar desde portapapeles
+      </button>
+      <textarea id="paste-area" placeholder="… o toca aquí y mantén pulsado → Pegar"></textarea>
+      <button class="btn-ghost" id="btn-pick-file" style="width:100%;text-align:center;padding:11px">
+        📄 Seleccionar archivo (.txt / .pdf)
+      </button>
+      <input type="file" id="file-input" accept=".pdf,.txt">
+    </div>
+
+    <div style="display:flex;gap:10px;justify-content:flex-end;padding-top:4px;border-top:1px solid var(--border)">
+      <button class="btn-ghost" id="btn-cancel-load">Cancelar</button>
+      <button class="btn" id="btn-load">Analizar guion →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── CONFIG ── -->
+<div id="screen-config" class="screen">
+  <div class="screen-scroll">
+    <div id="config-obra-title" style="font-family:'Playfair Display',serif;font-size:1.2rem;color:var(--gold)"></div>
+
+    <div>
+      <div class="sec-title">¿Quién eres?</div>
+      <div class="chips" id="char-chips"></div>
+    </div>
+
+    <div>
+      <div class="sec-title">Escenas a ensayar</div>
+      <div class="scene-actions">
+        <button class="btn-ghost" id="btn-all-scenes">Todas</button>
+        <button class="btn-ghost" id="btn-no-scenes">Ninguna</button>
+      </div>
+      <div class="scene-list" id="scene-list"></div>
+    </div>
+
+    <div>
+      <div class="sec-title">Opciones</div>
+      <div style="display:flex;flex-direction:column;gap:13px">
+        <div class="opt-row">
+          <label>Velocidad de voz</label>
+          <input type="range" id="speed-range" min="0.6" max="1.8" step="0.05" value="1">
+          <span class="opt-val" id="speed-val">1.0×</span>
+        </div>
+        <div class="opt-row">
+          <div class="toggle" id="toggle-hide"></div>
+          <span>Ocultar mi texto (modo memoria)</span>
+        </div>
+        <div class="opt-row">
+          <div class="toggle" id="toggle-initials"></div>
+          <span>Mostrar solo iniciales de mis réplicas</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="config-footer">
+      <button class="btn-ghost" id="btn-back-library">← Mis obras</button>
+      <button class="btn" id="btn-start">Comenzar ensayo →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── ENSAYO ── -->
+<div id="screen-rehearsal" class="screen">
   <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
   <div class="rehearsal-body" id="rehearsal-body"></div>
   <div class="rehearsal-footer">
-    <button class="ctrl-btn" id="btn-repeat">↺ Repetir pie</button>
-    <button class="ctrl-btn" id="btn-pause">⏸ Pausar</button>
+    <button class="ctrl-btn" id="btn-repeat">↺ Pie</button>
+    <button class="ctrl-btn" id="btn-pause">⏸</button>
     <button class="ctrl-btn" id="btn-skip">Saltar →</button>
+    <button class="ctrl-btn" id="btn-goto">Ir a escena</button>
     <div class="status-badge" id="status-badge">—</div>
   </div>
 </div>
 
-<!-- PANTALLA 4: FIN -->
-<div id="screen-end">
-  <div style="font-size:3rem">🎭</div>
-  <h2>¡Escenas completadas!</h2>
-  <p>Has terminado todas las escenas seleccionadas.</p>
-  <button class="btn" id="btn-restart">Volver a empezar</button>
+<!-- ── MODAL IR A ESCENA ── -->
+<div class="modal-overlay" id="modal-goto">
+  <div class="modal-box">
+    <div class="modal-title">Ir a escena</div>
+    <div class="modal-scene-list" id="modal-scene-list"></div>
+    <button class="btn-ghost" id="btn-modal-close" style="width:100%;text-align:center">Cancelar</button>
+  </div>
+</div>
+
+<!-- ── FIN ── -->
+<div id="screen-end" class="screen">
+  <div style="font-size:2.8rem">🎭</div>
+  <h2>¡Completado!</h2>
+  <p id="end-msg">Has terminado todas las escenas.</p>
+  <div class="end-actions">
+    <button class="btn" id="btn-repeat-same">Repetir mismas escenas</button>
+    <button class="btn-ghost" id="btn-back-config">Cambiar escenas</button>
+    <button class="btn-ghost" id="btn-back-library-end">← Mis obras</button>
+  </div>
 </div>
 
 <script>
-// ─── UTILIDADES ──────────────────────────────────────────
 const $ = id => document.getElementById(id);
-const show = id => { const el = $(id); el.style.display = 'flex'; }
-const hide = id => { const el = $(id); el.style.display = 'none'; }
-
-let scriptLines = [];   // [{type:'scene'|'line'|'section', char, text, section}]
-let characters = [];
-let myChar = '';
-let selectedScenes = new Set();
-let allScenes = [];
-let hideText = false;
-let speed = 1.0;
-let queue = [];         // lines to play
-let qIdx = 0;
-let paused = false;
-let speaking = false;
-let utterance = null;
-let waitingForMe = false;
-
-// ─── PDF.JS (opcional) ───────────────────────────────────
-let pdfjsLib = null;
-async function loadPDFJS() {
-  if (pdfjsLib) return pdfjsLib;
-  return new Promise((resolve, reject) => {
-    const s = document.createElement('script');
-    s.src = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js';
-    s.onload = () => {
-      window.pdfjsLib.GlobalWorkerOptions.workerSrc =
-        'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
-      pdfjsLib = window.pdfjsLib;
-      resolve(pdfjsLib);
-    };
-    s.onerror = reject;
-    document.head.appendChild(s);
-  });
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  $(id).classList.add('active');
 }
 
-async function extractPDFText(file) {
-  const lib = await loadPDFJS();
-  const ab = await file.arrayBuffer();
-  const pdf = await lib.getDocument({ data: ab }).promise;
-  let text = '';
-  for (let i = 1; i <= pdf.numPages; i++) {
-    const page = await pdf.getPage(i);
-    const content = await page.getTextContent();
-    const pageText = content.items.map(item => item.str).join(' ');
-    text += pageText + '\n';
+// ── STORAGE ──────────────────────────────────────────────
+const DB_KEY = 'ensayo_obras_v3';
+
+function loadDB() {
+  try { return JSON.parse(localStorage.getItem(DB_KEY)) || {}; } catch(e) { return {}; }
+}
+function saveDB(db) {
+  try { localStorage.setItem(DB_KEY, JSON.stringify(db)); } catch(e) {}
+}
+
+// db structure: { [id]: { id, name, emoji, script, lastChar, lastScenes, lastSpeed, createdAt, lastUsed } }
+
+function saveObra(obra) {
+  const db = loadDB();
+  db[obra.id] = obra;
+  saveDB(db);
+}
+function deleteObra(id) {
+  const db = loadDB();
+  delete db[id];
+  saveDB(db);
+}
+function getObras() {
+  const db = loadDB();
+  return Object.values(db).sort((a,b) => (b.lastUsed||0) - (a.lastUsed||0));
+}
+
+const OBRA_EMOJIS = ['🎭','📜','🎬','🌹','⚡','🌙','🔥','🎪','🎨','🌊'];
+
+// ── ESTADO ───────────────────────────────────────────────
+let currentObraId = null;
+let scriptLines = [], characters = [], allScenes = [];
+let myChar = '', selectedScenes = new Set();
+let hideText = false, showInitials = false, speed = 1.0;
+let queue = [], qIdx = 0, paused = false, waitingForMe = false;
+let utterance = null, keepAliveTimer = null, audioUnlocked = false;
+let wakeLock = null;
+
+// ── WAKE LOCK (pantalla encendida) ────────────────────────
+async function requestWakeLock() {
+  if (!('wakeLock' in navigator)) return;
+  try {
+    wakeLock = await navigator.wakeLock.request('screen');
+  } catch(e) {}
+}
+function releaseWakeLock() {
+  if (wakeLock) { wakeLock.release(); wakeLock = null; }
+}
+// Reactivar si la página vuelve al foco (el wakelock se pierde al minimizar)
+document.addEventListener('visibilitychange', async () => {
+  if (document.visibilityState === 'visible' && currentObraId && !wakeLock) {
+    await requestWakeLock();
   }
-  return text;
-}
+});
 
-// ─── PARSER ──────────────────────────────────────────────
-function parseScript(raw) {
-  const lines = raw.split(/\r?\n/);
-  const result = [];
-  const charSet = new Set();
+// ── BIBLIOTECA ───────────────────────────────────────────
+function renderLibrary() {
+  const obras = getObras();
+  const list = $('obra-list');
+  list.innerHTML = '';
+  $('empty-library').style.display = obras.length === 0 ? 'block' : 'none';
 
-  // patrón: NOMBRE .– texto  (con variantes de guion)
-  const lineRe = /^([A-ZÁÉÍÓÚÜÑ][A-ZÁÉÍÓÚÜÑ\s\.]+?)\s*\.\s*[–—-]\s*(.+)$/;
-  // sección: línea que empieza por PRÓLOGO, ACTO o ESCENA (acepta acentos y cualquier palabra)
-  const sectionRe = /^(PRÓLOGO|ACTO\b|ESCENA\b)/i;
-
-  let currentSection = null;
-
-  for (const raw of lines) {
-    const line = raw.trim();
-    if (!line) continue;
-
-    if (sectionRe.test(line)) {
-      // Normalizar: quitar todo lo que venga después de la primera réplica accidental
-      const sectionText = line.toUpperCase().trim();
-      currentSection = sectionText;
-      result.push({ type: 'section', text: sectionText });
-      continue;
-    }
-
-    const m = line.match(lineRe);
-    if (m) {
-      const char = m[1].trim().replace(/\s+/g, ' ');
-      const text = m[2].trim();
-      // filtrar nombres muy largos (probablemente no son personajes)
-      if (char.split(' ').length <= 5 && char.length <= 35) {
-        charSet.add(char);
-        result.push({ type: 'line', char, text, section: currentSection || 'COMPLETO' });
-      }
-    }
+  for (const obra of obras) {
+    const card = document.createElement('div');
+    card.className = 'obra-card';
+    const lastUsed = obra.lastUsed ? new Date(obra.lastUsed).toLocaleDateString('es-ES') : 'nunca';
+    const scenesInfo = obra.lastChar ? `${obra.lastChar}` : 'Sin configurar';
+    card.innerHTML = `
+      <div class="obra-icon">${obra.emoji || '🎭'}</div>
+      <div class="obra-info">
+        <div class="obra-title">${obra.name}</div>
+        <div class="obra-meta">${scenesInfo} · Último ensayo: ${lastUsed}</div>
+      </div>
+      <div class="obra-actions">
+        <button class="btn-ghost" data-edit="${obra.id}" style="padding:6px 10px;font-size:0.75rem">✏️</button>
+        <button class="btn-danger" data-delete="${obra.id}" style="padding:6px 10px;font-size:0.75rem">🗑</button>
+      </div>
+    `;
+    card.addEventListener('click', (e) => {
+      if (e.target.dataset.delete) { confirmDeleteObra(e.target.dataset.delete); return; }
+      if (e.target.dataset.edit) { editObra(e.target.dataset.edit); return; }
+      loadObra(obra.id);
+    });
+    list.appendChild(card);
   }
+}
 
-  // Si no se detectó ninguna sección, insertar una genérica al inicio
-  if (!result.some(l => l.type === 'section')) {
-    result.unshift({ type: 'section', text: 'COMPLETO' });
+function confirmDeleteObra(id) {
+  const db = loadDB();
+  const obra = db[id];
+  if (!obra) return;
+  if (confirm(`¿Eliminar "${obra.name}"?`)) {
+    deleteObra(id);
+    renderLibrary();
   }
-
-  return { lines: result, chars: [...charSet].sort() };
 }
 
-// ─── PERSISTENCIA ────────────────────────────────────────
-const STORAGE_KEY = 'ensayo_guion_v1';
-
-function saveScript(text) {
-  try { localStorage.setItem(STORAGE_KEY, text); } catch(e) {}
+function editObra(id) {
+  const db = loadDB();
+  const obra = db[id];
+  if (!obra) return;
+  currentObraId = id;
+  $('obra-name-input').value = obra.name;
+  $('paste-area').value = obra.script;
+  $('load-title').textContent = 'Editar obra';
+  showScreen('screen-load');
 }
 
-function loadSavedScript() {
-  try { return localStorage.getItem(STORAGE_KEY) || ''; } catch(e) { return ''; }
-}
+function loadObra(id) {
+  const db = loadDB();
+  const obra = db[id];
+  if (!obra) return;
+  currentObraId = id;
 
-function clearSavedScript() {
-  try { localStorage.removeItem(STORAGE_KEY); } catch(e) {}
-}
-
-function processScript(text) {
-  const parsed = parseScript(text);
-  if (parsed.chars.length === 0) return false;
+  const parsed = parseScript(obra.script);
   scriptLines = parsed.lines;
   characters = parsed.chars;
   const scenesFound = [];
-  const seenSections = new Set();
+  const seen = new Set();
   for (const l of scriptLines) {
-    if (l.type === 'section' && !seenSections.has(l.text)) {
-      seenSections.add(l.text);
-      scenesFound.push(l.text);
-    }
+    if (l.type === 'section' && !seen.has(l.text)) { seen.add(l.text); scenesFound.push(l.text); }
   }
   allScenes = scenesFound.length > 0 ? scenesFound : ['COMPLETO'];
-  selectedScenes = new Set(allScenes);
-  return true;
+  selectedScenes = new Set(obra.lastScenes && obra.lastScenes.length ? obra.lastScenes.filter(s => allScenes.includes(s)) : allScenes);
+  myChar = obra.lastChar && characters.includes(obra.lastChar) ? obra.lastChar : '';
+  speed = obra.lastSpeed || 1.0;
+
+  buildConfigScreen();
+  $('config-obra-title').textContent = obra.name;
+  showScreen('screen-config');
+  $('header-info').textContent = obra.name;
 }
 
-// ─── PANTALLA CARGA ──────────────────────────────────────
-const fileInput = $('file-input');
+$('btn-new-obra').addEventListener('click', () => {
+  currentObraId = null;
+  $('obra-name-input').value = '';
+  $('paste-area').value = '';
+  $('load-title').textContent = 'Nueva obra';
+  showScreen('screen-load');
+});
 
-// Botón seleccionar archivo
-$('btn-pick-file').addEventListener('click', () => fileInput.click());
+// ── CARGA ─────────────────────────────────────────────────
+$('btn-cancel-load').addEventListener('click', () => {
+  showScreen('screen-library');
+  renderLibrary();
+});
 
-fileInput.addEventListener('change', async () => {
-  if (fileInput.files[0]) await handleFile(fileInput.files[0]);
+$('btn-pick-file').addEventListener('click', () => $('file-input').click());
+$('file-input').addEventListener('change', async () => {
+  if ($('file-input').files[0]) await handleFile($('file-input').files[0]);
 });
 
 async function handleFile(file) {
-  let text = '';
   if (file.name.toLowerCase().endsWith('.pdf')) {
     $('btn-pick-file').textContent = 'Extrayendo PDF…';
-    try { text = await extractPDFText(file); }
-    catch(e) { alert('Error al leer el PDF. Pega el texto manualmente.'); $('btn-pick-file').textContent = '📄 Seleccionar archivo (.txt / .pdf)'; return; }
+    try {
+      const text = await extractPDFText(file);
+      $('paste-area').value = text;
+    } catch(e) { alert('Error al leer el PDF. Pega el texto manualmente.'); }
     $('btn-pick-file').textContent = '📄 Seleccionar archivo (.txt / .pdf)';
   } else {
-    text = await file.text();
+    $('paste-area').value = await file.text();
   }
-  $('paste-area').value = text;
 }
 
-// Botón pegar desde portapapeles
 $('btn-paste-clipboard').addEventListener('click', async () => {
   try {
     const text = await navigator.clipboard.readText();
@@ -740,77 +464,64 @@ $('btn-paste-clipboard').addEventListener('click', async () => {
       $('paste-area').value = text;
       $('btn-paste-clipboard').textContent = '✓ Pegado';
       setTimeout(() => { $('btn-paste-clipboard').textContent = '📋 Pegar desde portapapeles'; }, 2000);
-    } else {
-      alert('El portapapeles está vacío. Copia primero el texto del guion.');
-    }
+    } else { alert('El portapapeles está vacío.'); }
   } catch(e) {
-    // Fallback: focus en textarea para que el usuario pegue manualmente
     $('paste-area').focus();
-    alert('No se pudo acceder al portapapeles automáticamente.\nToca el área de texto y mantén pulsado → Pegar.');
+    alert('Toca el área de texto y mantén pulsado → Pegar.');
   }
 });
 
 $('btn-load').addEventListener('click', () => {
   const text = $('paste-area').value.trim();
-  if (!text) { alert('Por favor, carga o pega el guion primero.'); return; }
-  if (!processScript(text)) {
-    alert('No se detectaron personajes.\nAsegúrate de que el formato es: NOMBRE .– texto');
-    return;
-  }
-  saveScript(text);
-  buildConfigScreen();
-  hide('screen-load');
-  show('screen-config');
+  const name = $('obra-name-input').value.trim();
+  if (!name) { alert('Escribe el nombre de la obra.'); $('obra-name-input').focus(); return; }
+  if (!text) { alert('Pega el guion primero.'); return; }
+  const parsed = parseScript(text);
+  if (parsed.chars.length === 0) { alert('No se detectaron personajes.\nFormato: NOMBRE .– texto'); return; }
+
+  const id = currentObraId || Date.now().toString();
+  const db = loadDB();
+  const existing = db[id] || {};
+  const obra = {
+    id,
+    name,
+    emoji: existing.emoji || OBRA_EMOJIS[Math.floor(Math.random() * OBRA_EMOJIS.length)],
+    script: text,
+    lastChar: existing.lastChar || '',
+    lastScenes: existing.lastScenes || [],
+    lastSpeed: existing.lastSpeed || 1.0,
+    createdAt: existing.createdAt || Date.now(),
+    lastUsed: existing.lastUsed || null,
+  };
+  saveObra(obra);
+  currentObraId = id;
+  loadObra(id);
 });
 
-// ─── ARRANQUE: cargar guion guardado si existe ────────────
-(function init() {
-  const saved = loadSavedScript();
-  if (saved && processScript(saved)) {
-    // Mostrar info de guion guardado en la pantalla de carga
-    const savedInfo = document.createElement('div');
-    savedInfo.style.cssText = 'display:flex;align-items:center;gap:10px;font-size:0.8rem;color:var(--text-dim);background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:10px 14px;max-width:440px;width:100%';
-    savedInfo.innerHTML = `<span style="color:var(--gold)">✓</span> Guion guardado cargado automáticamente &nbsp;<button id="btn-clear-script" style="margin-left:auto;background:transparent;border:none;color:var(--text-dim);cursor:pointer;font-size:0.78rem;text-decoration:underline">Cambiar guion</button>`;
-    $('screen-load').insertBefore(savedInfo, $('screen-load').firstChild);
-    $('btn-clear-script').addEventListener('click', () => {
-      clearSavedScript();
-      savedInfo.remove();
-      $('paste-area').value = '';
-      scriptLines = []; characters = []; allScenes = []; selectedScenes = new Set();
-    });
-    // Ir directamente a configuración
-    buildConfigScreen();
-    hide('screen-load');
-    show('screen-config');
-  }
-})();
-
-// ─── PANTALLA CONFIG ─────────────────────────────────────
+// ── CONFIG ────────────────────────────────────────────────
 function buildConfigScreen() {
-  // Chips de personajes
   const chips = $('char-chips');
   chips.innerHTML = '';
   for (const c of characters) {
     const chip = document.createElement('div');
-    chip.className = 'chip';
+    chip.className = 'chip' + (c === myChar ? ' active' : '');
     chip.textContent = c;
     chip.addEventListener('click', () => {
-      document.querySelectorAll('.chip').forEach(ch => ch.classList.remove('active'));
+      document.querySelectorAll('#char-chips .chip').forEach(ch => ch.classList.remove('active'));
       chip.classList.add('active');
       myChar = c;
     });
     chips.appendChild(chip);
   }
 
-  // Lista de escenas
   const list = $('scene-list');
   list.innerHTML = '';
   for (const s of allScenes) {
     const item = document.createElement('label');
-    item.className = 'scene-item active';
+    item.className = 'scene-item' + (selectedScenes.has(s) ? ' active' : '');
     const cb = document.createElement('input');
     cb.type = 'checkbox';
-    cb.checked = true;
+    cb.checked = selectedScenes.has(s);
     cb.addEventListener('change', () => {
       if (cb.checked) { selectedScenes.add(s); item.classList.add('active'); }
       else { selectedScenes.delete(s); item.classList.remove('active'); }
@@ -820,164 +531,129 @@ function buildConfigScreen() {
     list.appendChild(item);
   }
 
-  $('btn-all-scenes').addEventListener('click', () => {
+  $('btn-all-scenes').onclick = () => {
     document.querySelectorAll('#scene-list input').forEach(cb => { cb.checked = true; });
     selectedScenes = new Set(allScenes);
-    document.querySelectorAll('.scene-item').forEach(el => el.classList.add('active'));
-  });
-
-  $('btn-no-scenes').addEventListener('click', () => {
+    document.querySelectorAll('#scene-list .scene-item').forEach(el => el.classList.add('active'));
+  };
+  $('btn-no-scenes').onclick = () => {
     document.querySelectorAll('#scene-list input').forEach(cb => { cb.checked = false; });
     selectedScenes.clear();
-    document.querySelectorAll('.scene-item').forEach(el => el.classList.remove('active'));
-  });
+    document.querySelectorAll('#scene-list .scene-item').forEach(el => el.classList.remove('active'));
+  };
+
+  $('speed-range').value = speed;
+  $('speed-val').textContent = speed.toFixed(1) + '×';
+  $('toggle-hide').classList.toggle('on', hideText);
+  $('toggle-initials').classList.toggle('on', showInitials);
 }
 
 $('speed-range').addEventListener('input', function() {
   speed = parseFloat(this.value);
-  $('speed-val').textContent = speed.toFixed(2).replace('.00','').replace(/0$/,'') + '×';
+  $('speed-val').textContent = speed.toFixed(1) + '×';
 });
-
 $('toggle-hide').addEventListener('click', function() {
-  hideText = !hideText;
+  hideText = !hideText; showInitials = false;
   this.classList.toggle('on', hideText);
+  $('toggle-initials').classList.remove('on');
+});
+$('toggle-initials').addEventListener('click', function() {
+  showInitials = !showInitials; hideText = false;
+  this.classList.toggle('on', showInitials);
+  $('toggle-hide').classList.remove('on');
 });
 
-$('btn-back-load').addEventListener('click', () => {
-  hide('screen-config');
-  show('screen-load');
+$('btn-back-library').addEventListener('click', () => {
+  showScreen('screen-library'); renderLibrary();
+  $('header-info').textContent = '';
 });
 
 $('btn-start').addEventListener('click', () => {
-  if (!myChar) { alert('Selecciona tu personaje primero.'); return; }
+  if (!myChar) { alert('Selecciona tu personaje.'); return; }
   if (selectedScenes.size === 0) { alert('Selecciona al menos una escena.'); return; }
+
+  // Guardar configuración
+  const db = loadDB();
+  if (db[currentObraId]) {
+    db[currentObraId].lastChar = myChar;
+    db[currentObraId].lastScenes = [...selectedScenes];
+    db[currentObraId].lastSpeed = speed;
+    db[currentObraId].lastUsed = Date.now();
+    saveDB(db);
+  }
+
   buildQueue();
-  hide('screen-config');
-  show('screen-rehearsal');
+  showScreen('screen-rehearsal');
   $('rehearsal-body').innerHTML = '';
-  $('header-info').textContent = myChar;
-  qIdx = 0;
-  paused = false;
-  waitingForMe = false;
-  // Unlock de audio en móvil: disparar utterance vacía en el contexto del toque
+  qIdx = 0; paused = false; waitingForMe = false;
+  $('btn-pause').textContent = '⏸';
+  requestWakeLock();
   unlockAudio(() => playNext());
 });
 
-// ─── CONSTRUIR COLA ──────────────────────────────────────
+// ── PARSER ────────────────────────────────────────────────
+function parseScript(raw) {
+  const result = [], charSet = new Set();
+  const lineRe = /^([A-ZÁÉÍÓÚÜÑ][A-ZÁÉÍÓÚÜÑ\s\.]+?)\s*\.\s*[–—-]\s*(.+)$/;
+  const sectionRe = /^(PRÓLOGO|ACTO\b|ESCENA\b)/i;
+  let currentSection = null;
+  for (const raw of raw.split(/\r?\n/)) {
+    const line = raw.trim();
+    if (!line) continue;
+    if (sectionRe.test(line)) {
+      currentSection = line.toUpperCase().trim();
+      result.push({ type:'section', text:currentSection });
+      continue;
+    }
+    const m = line.match(lineRe);
+    if (m) {
+      const char = m[1].trim().replace(/\s+/g,' ');
+      const text = m[2].trim();
+      if (char.split(' ').length <= 5 && char.length <= 35) {
+        charSet.add(char);
+        result.push({ type:'line', char, text, section:currentSection||'COMPLETO' });
+      }
+    }
+  }
+  if (!result.some(l => l.type === 'section')) result.unshift({ type:'section', text:'COMPLETO' });
+  return { lines:result, chars:[...charSet].sort() };
+}
+
+// ── COLA ──────────────────────────────────────────────────
 function buildQueue() {
   queue = [];
   let inSelected = false;
-  let currentSection = null;
-
   for (const l of scriptLines) {
     if (l.type === 'section') {
-      currentSection = l.text;
       inSelected = selectedScenes.has(l.text);
       if (inSelected) queue.push(l);
       continue;
     }
-    if (inSelected && l.type === 'line') {
-      queue.push(l);
-    }
+    if (inSelected) queue.push(l);
   }
 }
 
-// ─── REPRODUCCIÓN ────────────────────────────────────────
+// ── REPRODUCCIÓN ──────────────────────────────────────────
 function playNext() {
   if (paused || waitingForMe) return;
   if (qIdx >= queue.length) { endRehearsal(); return; }
-
   const item = queue[qIdx];
-  const pct = Math.round((qIdx / queue.length) * 100);
-  $('progress-fill').style.width = pct + '%';
-  $('status-badge').textContent = `${qIdx + 1} / ${queue.length}`;
+  $('progress-fill').style.width = Math.round((qIdx / queue.length) * 100) + '%';
+  $('status-badge').textContent = `${qIdx + 1}/${queue.length}`;
   qIdx++;
-
-  if (item.type === 'section') {
-    addSectionMarker(item.text);
-    playNext();
-    return;
-  }
-
-  if (item.char === myChar) {
-    showMyTurn(item.text);
-  } else {
-    addBubble(item.char, item.text);
-    speak(item.text, () => playNext());
-  }
+  if (item.type === 'section') { addSectionMarker(item.text); playNext(); return; }
+  if (item.char === myChar) { showMyTurn(item.text); }
+  else { addBubble(item.char, item.text); speak(item.text, () => playNext()); }
 }
 
-// ─── AUDIO: robusto para Android Chrome ──────────────────
-// Android Chrome tiene dos quirks conocidos:
-// 1. speechSynthesis necesita dispararse dentro de un gesto del usuario la primera vez
-// 2. utterances largas se cortan (~15s) si no se hace "keepalive" con resume()
-//
-// Estrategia:
-// - unlockAudio: habla un espacio en blanco dentro del handler del toque
-// - speak: keepalive con setInterval que llama resume() cada 10s
-// - Sin cancel() antes de speak para no interrumpir el unlock
-
-let audioUnlocked = false;
-let keepAliveTimer = null;
-
-function unlockAudio(callback) {
-  if (!('speechSynthesis' in window)) { callback(); return; }
-  if (audioUnlocked) { callback(); return; }
-
-  // Hablar un espacio — Android necesita texto no vacío para disparar onend
-  const u = new SpeechSynthesisUtterance(' ');
-  u.volume = 0.01;  // casi silencioso pero no cero
-  u.rate = 2;       // rapidísimo
-  u.lang = 'es-ES';
-  u.onend   = () => { audioUnlocked = true; callback(); };
-  u.onerror = () => { audioUnlocked = true; callback(); };
-  // Timeout de seguridad: si onend nunca llega, seguimos igual
-  setTimeout(() => { if (!audioUnlocked) { audioUnlocked = true; callback(); } }, 1500);
-  window.speechSynthesis.speak(u);
-}
-
-function speak(text, onEnd) {
-  if (!('speechSynthesis' in window)) { setTimeout(onEnd, 800); return; }
-
-  // Parar keepalive anterior y cualquier utterance en curso
-  clearInterval(keepAliveTimer);
-  window.speechSynthesis.cancel();
-
-  // Pequeña pausa tras cancel() — Android necesita un tick para procesar el cancel
-  setTimeout(() => {
-    utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = 'es-ES';
-    utterance.rate = speed;
-
-    // Elegir voz española si existe
-    const voices = window.speechSynthesis.getVoices();
-    const esVoice = voices.find(v => v.lang.startsWith('es') && v.localService)
-                 || voices.find(v => v.lang.startsWith('es'));
-    if (esVoice) utterance.voice = esVoice;
-
-    utterance.onend = () => {
-      clearInterval(keepAliveTimer);
-      onEnd();
-    };
-    utterance.onerror = (e) => {
-      // 'interrupted' ocurre al hacer cancel() — ignorarlo
-      if (e.error === 'interrupted') return;
-      clearInterval(keepAliveTimer);
-      onEnd();
-    };
-
-    window.speechSynthesis.speak(utterance);
-
-    // Keepalive: Android corta utterances largas si no se llama resume()
-    keepAliveTimer = setInterval(() => {
-      if (window.speechSynthesis.speaking) {
-        window.speechSynthesis.pause();
-        window.speechSynthesis.resume();
-      } else {
-        clearInterval(keepAliveTimer);
-      }
-    }, 10000);
-  }, 50);
+// ── INICIALES (modo primera letra) ────────────────────────
+function toInitials(text) {
+  // Cada palabra → solo su primera letra + puntos de longitud
+  return text.split(/\s+/).map(word => {
+    const clean = word.replace(/[^a-záéíóúüñA-ZÁÉÍÓÚÜÑ]/g,'');
+    if (!clean) return word;
+    return `<span class="word-hint">${clean[0]}${'·'.repeat(Math.min(clean.length-1,4))}</span>`;
+  }).join(' ');
 }
 
 function addBubble(char, text) {
@@ -986,7 +662,7 @@ function addBubble(char, text) {
   div.className = 'bubble-other';
   div.innerHTML = `<div class="char-name">${char}</div><div class="char-text">${text}</div>`;
   body.appendChild(div);
-  div.scrollIntoView({ behavior: 'smooth', block: 'end' });
+  div.scrollIntoView({ behavior:'smooth', block:'end' });
 }
 
 function addSectionMarker(text) {
@@ -995,52 +671,94 @@ function addSectionMarker(text) {
   div.className = 'scene-marker';
   div.textContent = text;
   body.appendChild(div);
-  div.scrollIntoView({ behavior: 'smooth', block: 'end' });
+  div.scrollIntoView({ behavior:'smooth', block:'end' });
 }
 
 function showMyTurn(text) {
   waitingForMe = true;
   window.speechSynthesis && window.speechSynthesis.cancel();
-
   const body = $('rehearsal-body');
   const panel = document.createElement('div');
   panel.className = 'my-turn-panel';
-  panel.id = 'my-turn-panel';
 
-  const textClass = hideText ? 'my-turn-text hidden-text' : 'my-turn-text';
+  let displayHTML;
+  if (showInitials) {
+    displayHTML = `<div class="my-turn-text mode-initials">${toInitials(text)}</div>`;
+  } else if (hideText) {
+    displayHTML = `<div class="my-turn-text mode-hidden">${text}</div>`;
+  } else {
+    displayHTML = `<div class="my-turn-text mode-normal">${text}</div>`;
+  }
 
   panel.innerHTML = `
     <div class="my-turn-label"><div class="dot-pulse"></div>TU TURNO — ${myChar}</div>
-    <div class="${textClass}">${text}</div>
-    <button class="done-btn" id="btn-done">✓ He terminado mi réplica</button>
+    ${displayHTML}
+    <button class="done-btn">✓ He terminado mi réplica</button>
   `;
   body.appendChild(panel);
-  panel.scrollIntoView({ behavior: 'smooth', block: 'end' });
+  panel.scrollIntoView({ behavior:'smooth', block:'end' });
 
-  $('btn-done').addEventListener('click', () => {
+  panel.querySelector('.done-btn').addEventListener('click', () => {
     waitingForMe = false;
     panel.querySelector('.dot-pulse').style.display = 'none';
     panel.querySelector('.done-btn').remove();
-    if (hideText) panel.querySelector('.my-turn-text').classList.remove('hidden-text');
+    // Revelar texto al terminar si estaba oculto
+    const mt = panel.querySelector('.my-turn-text');
+    if (mt) { mt.className = 'my-turn-text mode-normal'; }
     playNext();
   });
 }
 
-// ─── CONTROLES ───────────────────────────────────────────
+// ── IR A ESCENA ───────────────────────────────────────────
+$('btn-goto').addEventListener('click', () => {
+  const modal = $('modal-goto');
+  const list = $('modal-scene-list');
+  list.innerHTML = '';
+  // Listar las secciones que hay en la cola actual
+  const sections = queue.filter(l => l.type === 'section');
+  if (sections.length === 0) {
+    list.innerHTML = '<div style="color:var(--text-dim);padding:10px;font-size:0.85rem">No hay secciones en las escenas seleccionadas.</div>';
+  } else {
+    for (const s of sections) {
+      const item = document.createElement('div');
+      item.className = 'modal-scene-item';
+      item.textContent = s.text;
+      item.addEventListener('click', () => {
+        // Buscar el índice en la cola donde empieza esta sección
+        const idx = queue.indexOf(s);
+        if (idx >= 0) {
+          window.speechSynthesis && window.speechSynthesis.cancel();
+          waitingForMe = false; paused = false;
+          $('btn-pause').textContent = '⏸';
+          qIdx = idx;
+          $('rehearsal-body').innerHTML = '';
+        }
+        modal.classList.remove('open');
+        playNext();
+      });
+      list.appendChild(item);
+    }
+  }
+  modal.classList.add('open');
+});
+
+$('btn-modal-close').addEventListener('click', () => $('modal-goto').classList.remove('open'));
+$('modal-goto').addEventListener('click', (e) => { if (e.target === $('modal-goto')) $('modal-goto').classList.remove('open'); });
+
+// ── CONTROLES ─────────────────────────────────────────────
 $('btn-pause').addEventListener('click', () => {
   paused = !paused;
-  $('btn-pause').textContent = paused ? '▶ Reanudar' : '⏸ Pausar';
+  $('btn-pause').textContent = paused ? '▶' : '⏸';
   if (paused) {
     clearInterval(keepAliveTimer);
     window.speechSynthesis && window.speechSynthesis.pause();
   } else {
     window.speechSynthesis && window.speechSynthesis.resume();
-    if (!waitingForMe && !speaking) playNext();
+    if (!waitingForMe) playNext();
   }
 });
 
 $('btn-repeat').addEventListener('click', () => {
-  // Buscar la última réplica de otro personaje antes de la posición actual
   window.speechSynthesis && window.speechSynthesis.cancel();
   let idx = qIdx - 1;
   while (idx >= 0 && (queue[idx].type === 'section' || queue[idx].char === myChar)) idx--;
@@ -1054,32 +772,107 @@ $('btn-repeat').addEventListener('click', () => {
 $('btn-skip').addEventListener('click', () => {
   window.speechSynthesis && window.speechSynthesis.cancel();
   waitingForMe = false;
-  // Avanzar hasta la siguiente réplica propia
   while (qIdx < queue.length && queue[qIdx].char !== myChar) qIdx++;
   playNext();
 });
 
-$('btn-restart').addEventListener('click', () => {
-  hide('screen-end');
-  show('screen-config');
-  myChar = '';
-  $('header-info').textContent = '';
-});
-
-// ─── FIN ─────────────────────────────────────────────────
+// ── FIN ───────────────────────────────────────────────────
 function endRehearsal() {
   clearInterval(keepAliveTimer);
   window.speechSynthesis && window.speechSynthesis.cancel();
+  releaseWakeLock();
   $('progress-fill').style.width = '100%';
-  hide('screen-rehearsal');
-  show('screen-end');
+  const db = loadDB();
+  const nombre = db[currentObraId] ? db[currentObraId].name : '';
+  $('end-msg').textContent = `Has terminado las escenas seleccionadas de ${nombre}.`;
+  showScreen('screen-end');
 }
 
-// Cargar voces
+$('btn-repeat-same').addEventListener('click', () => {
+  showScreen('screen-rehearsal');
+  $('rehearsal-body').innerHTML = '';
+  qIdx = 0; paused = false; waitingForMe = false;
+  $('btn-pause').textContent = '⏸';
+  requestWakeLock();
+  unlockAudio(() => playNext());
+});
+
+$('btn-back-config').addEventListener('click', () => {
+  releaseWakeLock();
+  showScreen('screen-config');
+});
+
+$('btn-back-library-end').addEventListener('click', () => {
+  releaseWakeLock();
+  $('header-info').textContent = '';
+  showScreen('screen-library');
+  renderLibrary();
+});
+
+// ── AUDIO ─────────────────────────────────────────────────
+function unlockAudio(callback) {
+  if (!('speechSynthesis' in window)) { callback(); return; }
+  if (audioUnlocked) { callback(); return; }
+  const u = new SpeechSynthesisUtterance(' ');
+  u.volume = 0.01; u.rate = 2; u.lang = 'es-ES';
+  u.onend = () => { audioUnlocked = true; callback(); };
+  u.onerror = () => { audioUnlocked = true; callback(); };
+  setTimeout(() => { if (!audioUnlocked) { audioUnlocked = true; callback(); } }, 1500);
+  window.speechSynthesis.speak(u);
+}
+
+function speak(text, onEnd) {
+  if (!('speechSynthesis' in window)) { setTimeout(onEnd, 800); return; }
+  clearInterval(keepAliveTimer);
+  window.speechSynthesis.cancel();
+  setTimeout(() => {
+    utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = 'es-ES';
+    utterance.rate = speed;
+    const voices = window.speechSynthesis.getVoices();
+    const esVoice = voices.find(v => v.lang.startsWith('es') && v.localService) || voices.find(v => v.lang.startsWith('es'));
+    if (esVoice) utterance.voice = esVoice;
+    utterance.onend = () => { clearInterval(keepAliveTimer); onEnd(); };
+    utterance.onerror = (e) => { if (e.error === 'interrupted') return; clearInterval(keepAliveTimer); onEnd(); };
+    window.speechSynthesis.speak(utterance);
+    keepAliveTimer = setInterval(() => {
+      if (window.speechSynthesis.speaking) { window.speechSynthesis.pause(); window.speechSynthesis.resume(); }
+      else { clearInterval(keepAliveTimer); }
+    }, 10000);
+  }, 50);
+}
+
+// ── PDF.JS ────────────────────────────────────────────────
+let pdfjsLib = null;
+async function loadPDFJS() {
+  if (pdfjsLib) return pdfjsLib;
+  return new Promise((res, rej) => {
+    const s = document.createElement('script');
+    s.src = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js';
+    s.onload = () => {
+      window.pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+      pdfjsLib = window.pdfjsLib; res(pdfjsLib);
+    };
+    s.onerror = rej; document.head.appendChild(s);
+  });
+}
+async function extractPDFText(file) {
+  const lib = await loadPDFJS();
+  const pdf = await lib.getDocument({ data: await file.arrayBuffer() }).promise;
+  let text = '';
+  for (let i = 1; i <= pdf.numPages; i++) {
+    const page = await pdf.getPage(i);
+    text += (await page.getTextContent()).items.map(x => x.str).join(' ') + '\n';
+  }
+  return text;
+}
+
+// ── INIT ──────────────────────────────────────────────────
 if ('speechSynthesis' in window) {
   window.speechSynthesis.getVoices();
   window.speechSynthesis.onvoiceschanged = () => window.speechSynthesis.getVoices();
 }
+renderLibrary();
 </script>
 </body>
 </html>
