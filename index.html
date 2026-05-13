@@ -3,6 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#1a1510">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Ensayo">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-192.png">
 <title>Ensayo de Teatro</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap');
@@ -176,15 +183,37 @@
     <details>
       <summary>¿Cómo preparar el guion?</summary>
       <div class="tutorial-box">
-        Cada réplica debe estar en <b>una sola línea</b> con el formato:<br>
-        <code>NOMBRE .– texto de la réplica</code><br><br>
-        Las secciones se marcan con:<br>
-        <code>PRÓLOGO</code> / <code>ACTO PRIMERO</code> / <code>ESCENA PRIMERA</code><br><br>
-        <b>Ejemplo:</b><br>
-        <code>PRÓLOGO</code><br>
-        <code>BEVERLY .– Qué larga es la vida…</code><br>
-        <code>VIOLET .– ¡Hijo de puta!</code><br><br>
-        Si tienes el guion en PDF, puedes copiarlo y pegarlo abajo. Si hay errores de OCR en los nombres, corrígelos en el texto antes de analizar.
+        <b>Opción A — Usar un LLM (recomendado)</b><br>
+        Copia el texto del guion (desde PDF, Word o cualquier fuente) y pégalo en ChatGPT, Claude u otro asistente junto con este prompt:<br><br>
+        <div id="prompt-box" style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:12px;font-size:0.78rem;color:var(--text);line-height:1.7;white-space:pre-wrap;margin:4px 0">Adjunto encontrarás un guion de teatro en PDF o Word. Conviértelo íntegramente al siguiente formato, sin omitir ninguna réplica:
+
+REGLAS DE FORMATO:
+- Cada réplica en una sola línea: NOMBRE .– texto de la réplica
+- Nombres de personaje siempre en MAYÚSCULAS
+- Si un nombre tiene error tipográfico o varía entre escenas, normalízalo a una forma única
+- Las secciones en su propia línea, sin nada más: PRÓLOGO, ACTO PRIMERO, ACTO SEGUNDO, ESCENA PRIMERA, ESCENA SEGUNDA, etc.
+- Si una réplica ocupa varias líneas en el original, únela en una sola línea
+- Elimina: acotaciones, numeración de páginas, encabezados, notas del director, didascalias
+- Sin líneas en blanco entre réplicas de la misma escena
+- Una línea en blanco solo entre secciones (entre ACTO y ESCENA)
+
+EJEMPLO DEL RESULTADO ESPERADO:
+PRÓLOGO
+BEVERLY .– Qué larga es la vida…
+VIOLET .– ¡Hijo de puta!
+
+ACTO PRIMERO
+ESCENA PRIMERA
+MATTIE FAE .– Ya lo ha hecho otras veces.
+IVY .– Lo sé.
+CHARLIE .– Siempre ha sido muy raro.
+
+IMPORTANTE: devuelve únicamente el texto formateado, sin explicaciones ni comentarios antes ni después.</div>
+        <button class="btn-ghost" id="btn-copy-prompt" style="width:100%;text-align:center;padding:8px;margin-top:4px;font-size:0.8rem">📋 Copiar prompt</button>
+        <br>
+        <b>Opción B — Formato manual</b><br>
+        Cada réplica en <b>una sola línea</b>: <code>NOMBRE .– texto</code><br>
+        Secciones: <code>PRÓLOGO</code> / <code>ACTO PRIMERO</code> / <code>ESCENA PRIMERA</code>
       </div>
     </details>
 
@@ -435,6 +464,33 @@ $('btn-new-obra').addEventListener('click', () => {
 });
 
 // ── CARGA ─────────────────────────────────────────────────
+// Copiar prompt al portapapeles
+$('btn-copy-prompt') && $('btn-copy-prompt').addEventListener('click', async () => {
+  const prompt = $('prompt-box').textContent;
+  try {
+    await navigator.clipboard.writeText(prompt);
+    $('btn-copy-prompt').textContent = '✓ Prompt copiado';
+    setTimeout(() => { $('btn-copy-prompt').textContent = '📋 Copiar prompt'; }, 2500);
+  } catch(e) {
+    // Seleccionar el texto manualmente como fallback
+    const range = document.createRange();
+    range.selectNode($('prompt-box'));
+    window.getSelection().removeAllRanges();
+    window.getSelection().addRange(range);
+  }
+});
+// El botón se crea dinámicamente al abrir el details, usar delegación
+document.addEventListener('click', async (e) => {
+  if (e.target.id === 'btn-copy-prompt') {
+    const prompt = $('prompt-box').textContent;
+    try {
+      await navigator.clipboard.writeText(prompt);
+      e.target.textContent = '✓ Prompt copiado';
+      setTimeout(() => { e.target.textContent = '📋 Copiar prompt'; }, 2500);
+    } catch(err) {}
+  }
+});
+
 $('btn-cancel-load').addEventListener('click', () => {
   showScreen('screen-library');
   renderLibrary();
@@ -910,6 +966,11 @@ if ('speechSynthesis' in window) {
   window.speechSynthesis.onvoiceschanged = () => window.speechSynthesis.getVoices();
 }
 renderLibrary();
+
+// ── SERVICE WORKER (PWA) ───────────────────────────────────
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw.js').catch(() => {});
+}
 </script>
 </body>
 </html>

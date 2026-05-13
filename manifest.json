@@ -1,0 +1,26 @@
+{
+  "name": "Ensayo de Teatro",
+  "short_name": "Ensayo",
+  "description": "App para ensayar obras de teatro solo, con síntesis de voz para los otros personajes.",
+  "start_url": "/ensayo/",
+  "scope": "/ensayo/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#1a1510",
+  "theme_color": "#1a1510",
+  "lang": "es",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
