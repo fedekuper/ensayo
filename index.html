@@ -199,6 +199,7 @@
       <input type="file" id="file-input" accept=".pdf,.txt">
     </div>
 
+    <div id="load-error" style="display:none;background:#3a1515;border:1px solid #7a2020;border-radius:8px;padding:12px 14px;font-size:0.82rem;color:#e08080;line-height:1.6"></div>
     <div style="display:flex;gap:10px;justify-content:flex-end;padding-top:4px;border-top:1px solid var(--border)">
       <button class="btn-ghost" id="btn-cancel-load">Cancelar</button>
       <button class="btn" id="btn-load">Analizar guion →</button>
@@ -472,30 +473,66 @@ $('btn-paste-clipboard').addEventListener('click', async () => {
 });
 
 $('btn-load').addEventListener('click', () => {
+  const btn = $('btn-load');
+  const errBox = $('load-error');
+  errBox.style.display = 'none';
+
   const text = $('paste-area').value.trim();
   const name = $('obra-name-input').value.trim();
-  if (!name) { alert('Escribe el nombre de la obra.'); $('obra-name-input').focus(); return; }
-  if (!text) { alert('Pega el guion primero.'); return; }
-  const parsed = parseScript(text);
-  if (parsed.chars.length === 0) { alert('No se detectaron personajes.\nFormato: NOMBRE .– texto'); return; }
 
-  const id = currentObraId || Date.now().toString();
-  const db = loadDB();
-  const existing = db[id] || {};
-  const obra = {
-    id,
-    name,
-    emoji: existing.emoji || OBRA_EMOJIS[Math.floor(Math.random() * OBRA_EMOJIS.length)],
-    script: text,
-    lastChar: existing.lastChar || '',
-    lastScenes: existing.lastScenes || [],
-    lastSpeed: existing.lastSpeed || 1.0,
-    createdAt: existing.createdAt || Date.now(),
-    lastUsed: existing.lastUsed || null,
-  };
-  saveObra(obra);
-  currentObraId = id;
-  loadObra(id);
+  if (!name) {
+    errBox.textContent = 'Escribe el nombre de la obra.';
+    errBox.style.display = 'block';
+    $('obra-name-input').focus();
+    return;
+  }
+  if (!text) {
+    errBox.textContent = 'Pega el guion primero.';
+    errBox.style.display = 'block';
+    return;
+  }
+
+  btn.textContent = 'Analizando…';
+  btn.disabled = true;
+
+  // Pequeño timeout para que el navegador pinte el estado antes de parsear
+  setTimeout(() => {
+    try {
+      const parsed = parseScript(text);
+      if (parsed.chars.length === 0) {
+        errBox.innerHTML = 'No se detectaron personajes.<br>Comprueba que el formato es: <code style="background:var(--surface2);padding:2px 5px;border-radius:3px">NOMBRE .– texto</code><br><br>Primeras líneas recibidas:<br><code style="background:var(--surface2);padding:4px 6px;border-radius:3px;display:block;margin-top:4px;font-size:0.78rem;white-space:pre-wrap">' + text.split('\n').slice(0,5).join('\n').replace(/</g,'&lt;') + '</code>';
+        errBox.style.display = 'block';
+        btn.textContent = 'Analizar guion →';
+        btn.disabled = false;
+        return;
+      }
+
+      const id = currentObraId || Date.now().toString();
+      const db = loadDB();
+      const existing = db[id] || {};
+      const obra = {
+        id,
+        name,
+        emoji: existing.emoji || OBRA_EMOJIS[Math.floor(Math.random() * OBRA_EMOJIS.length)],
+        script: text,
+        lastChar: existing.lastChar || '',
+        lastScenes: existing.lastScenes || [],
+        lastSpeed: existing.lastSpeed || 1.0,
+        createdAt: existing.createdAt || Date.now(),
+        lastUsed: existing.lastUsed || null,
+      };
+      saveObra(obra);
+      currentObraId = id;
+      btn.textContent = 'Analizar guion →';
+      btn.disabled = false;
+      loadObra(id);
+    } catch(e) {
+      errBox.textContent = 'Error inesperado: ' + e.message;
+      errBox.style.display = 'block';
+      btn.textContent = 'Analizar guion →';
+      btn.disabled = false;
+    }
+  }, 50);
 });
 
 // ── CONFIG ────────────────────────────────────────────────
