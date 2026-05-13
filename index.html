@@ -629,13 +629,13 @@ $('btn-start').addEventListener('click', () => {
 });
 
 // ── PARSER ────────────────────────────────────────────────
-function parseScript(raw) {
+function parseScript(scriptText) {
   const result = [], charSet = new Set();
   const lineRe = /^([A-ZÁÉÍÓÚÜÑ][A-ZÁÉÍÓÚÜÑ\s\.]+?)\s*\.\s*[–—-]\s*(.+)$/;
   const sectionRe = /^(PRÓLOGO|ACTO\b|ESCENA\b)/i;
   let currentSection = null;
-  for (const raw of raw.split(/\r?\n/)) {
-    const line = raw.trim();
+  for (const rawLine of scriptText.split(/\r?\n/)) {
+    const line = rawLine.trim();
     if (!line) continue;
     if (sectionRe.test(line)) {
       currentSection = line.toUpperCase().trim();
