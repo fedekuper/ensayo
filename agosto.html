@@ -153,6 +153,7 @@
 <header>
   <span style="font-size:1.3rem">🎭</span>
   <h1>Ensayo</h1>
+  <a href="mailto:fedekuper@gmail.com" style="font-size:0.72rem;color:var(--gold-dim);margin-left:auto;text-decoration:none;border:1px solid var(--border);padding:4px 10px;border-radius:20px">¿Otra obra? Contáctame</a>
   <span id="header-info"></span>
 </header>
 
@@ -160,7 +161,7 @@
 <div id="screen-library" class="screen active">
   <div class="library-header">
     <h2>Mis obras</h2>
-    <button class="btn" id="btn-new-obra">+ Nueva obra</button>
+    <button class="btn" id="btn-new-obra" style="display:none">+ Nueva obra</button>
   </div>
   <div class="obra-list" id="obra-list">
     <!-- generado por JS -->
@@ -395,10 +396,7 @@ function renderLibrary() {
         <div class="obra-title">${obra.name}</div>
         <div class="obra-meta">${scenesInfo} · Último ensayo: ${lastUsed}</div>
       </div>
-      <div class="obra-actions">
-        <button class="btn-ghost" data-edit="${obra.id}" style="padding:6px 10px;font-size:0.75rem">✏️</button>
-        <button class="btn-danger" data-delete="${obra.id}" style="padding:6px 10px;font-size:0.75rem">🗑</button>
-      </div>
+
     `;
     card.addEventListener('click', (e) => {
       if (e.target.dataset.delete) { confirmDeleteObra(e.target.dataset.delete); return; }
