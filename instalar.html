@@ -10,62 +10,33 @@
   * { box-sizing:border-box; margin:0; padding:0; }
   body { font-family:'DM Sans',sans-serif; background:var(--bg); color:var(--text); min-height:100vh; display:flex; flex-direction:column; align-items:center; padding:32px 20px 48px; gap:24px; }
   h1 { font-family:'Playfair Display',serif; font-size:1.7rem; color:var(--gold); text-align:center; }
-  .subtitle { font-size:0.88rem; color:var(--text-dim); text-align:center; line-height:1.7; max-width:380px; }
-  .versions { display:flex; flex-direction:column; gap:16px; width:100%; max-width:460px; }
-  .version-card { background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:20px; display:flex; flex-direction:column; gap:14px; }
-  .version-card.featured { border-color:var(--gold-dim); }
-  .version-title { font-family:'Playfair Display',serif; font-size:1.05rem; color:var(--gold); }
-  .version-desc { font-size:0.82rem; color:var(--text-dim); line-height:1.6; }
-  .qr-row { display:flex; align-items:center; gap:16px; }
-  .qr-row img { width:110px; height:110px; border-radius:8px; flex-shrink:0; }
-  .qr-info { display:flex; flex-direction:column; gap:8px; }
-  .url-pill { background:var(--bg); border:1px solid var(--border); border-radius:20px; padding:6px 12px; font-size:0.75rem; color:var(--gold); font-family:monospace; display:inline-block; }
-  .open-btn { background:var(--gold); color:#1a1510; border:none; border-radius:9px; padding:11px 22px; font-family:'DM Sans',sans-serif; font-weight:500; font-size:0.88rem; cursor:pointer; text-decoration:none; display:inline-block; text-align:center; }
+  .subtitle { font-size:0.88rem; color:var(--text-dim); text-align:center; line-height:1.7; max-width:360px; }
+  .card { background:var(--surface); border:1px solid var(--gold-dim); border-radius:16px; padding:24px; display:flex; flex-direction:column; align-items:center; gap:16px; width:100%; max-width:380px; }
+  .qr-wrap { background:var(--bg); border-radius:12px; padding:12px; }
+  .qr-wrap img { width:180px; height:180px; display:block; }
+  .url-pill { background:var(--bg); border:1px solid var(--border); border-radius:20px; padding:7px 16px; font-size:0.78rem; color:var(--gold); font-family:monospace; }
+  .open-btn { background:var(--gold); color:#1a1510; border:none; border-radius:10px; padding:13px 32px; font-family:'DM Sans',sans-serif; font-weight:500; font-size:0.95rem; cursor:pointer; text-decoration:none; display:inline-block; width:100%; text-align:center; }
   .open-btn:hover { opacity:.85; }
-  .open-btn.ghost { background:transparent; border:1px solid var(--border); color:var(--text-dim); }
-  .open-btn.ghost:hover { border-color:var(--gold-dim); color:var(--text); }
-  .divider { width:100%; max-width:460px; border:none; border-top:1px solid var(--border); }
-  .steps { width:100%; max-width:460px; display:flex; flex-direction:column; gap:10px; }
+  .divider { width:100%; max-width:380px; border:none; border-top:1px solid var(--border); }
+  .steps { width:100%; max-width:380px; display:flex; flex-direction:column; gap:10px; }
   .platform { background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:16px; }
   .platform-title { font-weight:500; font-size:0.9rem; color:var(--gold); margin-bottom:10px; }
   .step { display:flex; gap:10px; align-items:flex-start; font-size:0.82rem; color:var(--text-dim); line-height:1.6; padding:3px 0; }
   .step-num { background:var(--gold); color:#1a1510; border-radius:50%; width:20px; height:20px; display:flex; align-items:center; justify-content:center; font-size:0.7rem; font-weight:700; flex-shrink:0; margin-top:2px; }
-  .note { font-size:0.75rem; color:var(--text-dim); text-align:center; max-width:380px; line-height:1.6; }
+  .note { font-size:0.75rem; color:var(--text-dim); text-align:center; max-width:360px; line-height:1.6; }
 </style>
 </head>
 <body>
   <div style="font-size:2.8rem">🎭</div>
-  <h1>Ensayo de Teatro</h1>
-  <p class="subtitle">App para ensayar obras de teatro solo. La voz del sistema lee las réplicas de los otros personajes.</p>
+  <h1>Ensayo · Agosto</h1>
+  <p class="subtitle">App para ensayar <b>Agosto</b> de Tracy Letts.<br>La voz del sistema lee las réplicas de los otros personajes.</p>
 
-  <div class="versions">
-
-    <!-- Versión con Agosto -->
-    <div class="version-card featured">
-      <div class="version-title">🎭 Con Agosto precargada</div>
-      <div class="version-desc">Incluye el guion de <b>Agosto</b> (Tracy Letts) listo para usar. Ideal para el reparto actual.</div>
-      <div class="qr-row">
-        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAXIAAAFyCAIAAABnRsZeAAAHrUlEQVR4nO3cwXFsNRRFUUz9ADzxxLGQBIEQDYGQBIEx9UgFaOtfvfZa824/d9u7NDilt8+P918AOr9OPwDwamQFiMkKEJMVICYrQExWgJisADFZAWKyAsRkBYjJChCTFSAmK0BMVoCYrAAxWQFisgLEZAWIyQoQ+7Hz4r/+/K16jkv8/sffh955/Vmtf+7Ua3dM/dwp/he+cloBYrICxGQFiMkKEJMVICYrQExWgJisADFZAWJbK9u1O5eUO2vIneXo1I52x847T337d657X+9/Yc1pBYjJChCTFSAmK0BMVoCYrAAxWQFisgLEZAWIHVzZrp1b+D1x0XhuR3vnQvfOp1qbuvd3x9T/gtMKEJMVICYrQExWgJisADFZAWKyAsRkBYjJChAbW9m+nqlbVHfe+c5F8hPv/eUrpxUgJitATFaAmKwAMVkBYrICxGQFiMkKEJMVIGZl+x/sLDifeGvs1A27U+58qidyWgFisgLEZAWIyQoQkxUgJitATFaAmKwAMVkBYmMrW4vGr87tWZ+4wb3zme+8jfhOTitATFaAmKwAMVkBYrICxGQFiMkKEJMVICYrQOzgyvbc7a1Tplana1M/l3/vu30LTitATFaAmKwAMVkBYrICxGQFiMkKEJMVICYrQGxrZft6d3BOmdrgnnvtjif+XP8LXzmtADFZAWKyAsRkBYjJChCTFSAmK0BMVoCYrACxrZXtzt2uU84989RNt3fekjv1Se64c+t851OtOa0AMVkBYrICxGQFiMkKEJMVICYrQExWgJisALGDd9meWwfuOLcsfOI773xHdy6Sp5bBO564o11zWgFisgLEZAWIyQoQkxUgJitATFaAmKwAMVkBYm+fH+//+8V3biV3TN05euetsWvf7fs9Z+qzcpct8BiyAsRkBYjJChCTFSAmK0BMVoCYrAAxWQFiWyvbHVPL0SfuLNcsVn+OO+9m3mFlCzyGrAAxWQFisgLEZAWIyQoQkxUgJitATFaA2MG7bHc8cTl6542za3d+zlN71ju//R1TT+W0AsRkBYjJChCTFSAmK0BMVoCYrAAxWQFisgLEfuy8eGcreW7hN7VonPo07lzKnjO1Vz732qm/nHPv7LQCxGQFiMkKEJMVICYrQExWgJisADFZAWKyAsTG7rJ94u2eU3es7pj6nNeeuDrdce7v6s6lu9MKEJMVICYrQExWgJisADFZAWKyAsRkBYjJChDbust27dz+b2qVuPPOO554m+k5d+5K71wGTz2V0woQkxUgJitATFaAmKwAMVkBYrICxGQFiMkKEDu4st1x7lbRqXe+c4P73Ra6d95GPPUNnuO0AsRkBYjJChCTFSAmK0BMVoCYrAAxWQFisgLELl3Zrj3x3tCddz7nzt9o6q5ifxsVpxUgJitATFaAmKwAMVkBYrICxGQFiMkKEJMVILa1sj13j+a5reS5Bec5d24079yk7njiBnft3P/CmtMKEJMVICYrQExWgJisADFZAWKyAsRkBYjJChB7+/x4P/TWd+4716buDb3zBtYnmlro7rjzr26H0woQkxUgJitATFaAmKwAMVkBYrICxGQFiMkKENu6y3bHndtQt6hWr92x8/3eec/x6/3FrjmtADFZAWKyAsRkBYjJChCTFSAmK0BMVoCYrACxrZXt1BryiVvY73Yf7bnfd+dzntoNfzdOK0BMVoCYrAAxWQFisgLEZAWIyQoQkxUgJitA7OBdtlNryCfeGzr1zOd20ufceePszi783Cc5tSp2WgFisgLEZAWIyQoQkxUgJitATFaAmKwAMVkBYgdXtjvO3XV6p6lnvnM3fO5m3ztvFL5zj77zaTitADFZAWKyAsRkBYjJChCTFSAmK0BMVoCYrACxt8+P9//94juXlFP3ht5p6vZWNwr/HHduyp1WgJisADFZAWKyAsRkBYjJChCTFSAmK0BMVoDY1l22T7yB9c51r2Vw5dz9rFPr3qm/K3fZAheRFSAmK0BMVoCYrAAxWQFisgLEZAWIyQoQ21rZvt76c70svPMW1TtvM127c+u849xidcfUUzmtADFZAWKyAsRkBYjJChCTFSAmK0BMVoCYrACxrZXt2p3rz6md5Y5zN5Ke26ROPfOUOxfYU5xWgJisADFZAWKyAsRkBYjJChCTFSAmK0BMVoDYwZXt2tQm9ZzX21meu3F2x9Sq+M61652bY6cVICYrQExWgJisADFZAWKyAsRkBYjJChCTFSA2trJ9PTvrz7WpJeW5u2x3fu65+3d3PPFW4HN/sU4rQExWgJisADFZAWKyAsRkBYjJChCTFSAmK0DMyjYzdfPr1JLyzltU1+5c6J4z9Rs5rQAxWQFisgLEZAWIyQoQkxUgJitATFaAmKwAsbGV7RM3mjvOrV3vvPn1zjtld167/o3u/CSn/sucVoCYrAAxWQFisgLEZAWIyQoQkxUgJitATFaA2MGVrZtBf847T91le27dO7UNfeIyeG3qc3ZaAWKyAsRkBYjJChCTFSAmK0BMVoCYrAAxWQFib58f79PPALwUpxUgJitATFaAmKwAMVkBYrICxGQFiMkKEJMVICYrQExWgJisADFZAWKyAsRkBYjJChCTFSAmK0BMVoDYP6etuMfC1+T8AAAAAElFTkSuQmCC" alt="QR Agosto">
-        <div class="qr-info">
-          <div class="url-pill">…/ensayo/agosto.html</div>
-          <a class="open-btn" href="https://fedekuper.github.io/ensayo/agosto.html">Abrir →</a>
-        </div>
-      </div>
+  <div class="card">
+    <div class="qr-wrap">
+      <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAXIAAAFyCAIAAABnRsZeAAAHrUlEQVR4nO3cwXFsNRRFUUz9ADzxxLGQBIEQDYGQBIEx9UgFaOtfvfZa824/d9u7NDilt8+P918AOr9OPwDwamQFiMkKEJMVICYrQExWgJisADFZAWKyAsRkBYjJChCTFSAmK0BMVoCYrAAxWQFisgLEZAWIyQoQ+7Hz4r/+/K16jkv8/sffh955/Vmtf+7Ua3dM/dwp/he+cloBYrICxGQFiMkKEJMVICYrQExWgJisADFZAWJbK9u1O5eUO2vIneXo1I52x847T337d657X+9/Yc1pBYjJChCTFSAmK0BMVoCYrAAxWQFisgLEZAWIHVzZrp1b+D1x0XhuR3vnQvfOp1qbuvd3x9T/gtMKEJMVICYrQExWgJisADFZAWKyAsRkBYjJChAbW9m+nqlbVHfe+c5F8hPv/eUrpxUgJitATFaAmKwAMVkBYrICxGQFiMkKEJMVIGZl+x/sLDifeGvs1A27U+58qidyWgFisgLEZAWIyQoQkxUgJitATFaAmKwAMVkBYmMrW4vGr87tWZ+4wb3zme+8jfhOTitATFaAmKwAMVkBYrICxGQFiMkKEJMVICYrQOzgyvbc7a1Tplana1M/l3/vu30LTitATFaAmKwAMVkBYrICxGQFiMkKEJMVICYrQGxrZft6d3BOmdrgnnvtjif+XP8LXzmtADFZAWKyAsRkBYjJChCTFSAmK0BMVoCYrACxrZXtzt2uU84989RNt3fekjv1Se64c+t851OtOa0AMVkBYrICxGQFiMkKEJMVICYrQExWgJisALGDd9meWwfuOLcsfOI773xHdy6Sp5bBO564o11zWgFisgLEZAWIyQoQkxUgJitATFaAmKwAMVkBYm+fH+//+8V3biV3TN05euetsWvf7fs9Z+qzcpct8BiyAsRkBYjJChCTFSAmK0BMVoCYrAAxWQFiWyvbHVPL0SfuLNcsVn+OO+9m3mFlCzyGrAAxWQFisgLEZAWIyQoQkxUgJitATFaA2MG7bHc8cTl6542za3d+zlN71ju//R1TT+W0AsRkBYjJChCTFSAmK0BMVoCYrAAxWQFisgLEfuy8eGcreW7hN7VonPo07lzKnjO1Vz732qm/nHPv7LQCxGQFiMkKEJMVICYrQExWgJisADFZAWKyAsTG7rJ94u2eU3es7pj6nNeeuDrdce7v6s6lu9MKEJMVICYrQExWgJisADFZAWKyAsRkBYjJChDbust27dz+b2qVuPPOO554m+k5d+5K71wGTz2V0woQkxUgJitATFaAmKwAMVkBYrICxGQFiMkKEDu4st1x7lbRqXe+c4P73Ra6d95GPPUNnuO0AsRkBYjJChCTFSAmK0BMVoCYrAAxWQFisgLELl3Zrj3x3tCddz7nzt9o6q5ifxsVpxUgJitATFaAmKwAMVkBYrICxGQFiMkKEJMVILa1sj13j+a5reS5Bec5d24079yk7njiBnft3P/CmtMKEJMVICYrQExWgJisADFZAWKyAsRkBYjJChB7+/x4P/TWd+4716buDb3zBtYnmlro7rjzr26H0woQkxUgJitATFaAmKwAMVkBYrICxGQFiMkKENu6y3bHndtQt6hWr92x8/3eec/x6/3FrjmtADFZAWKyAsRkBYjJChCTFSAmK0BMVoCYrACxrZXt1BryiVvY73Yf7bnfd+dzntoNfzdOK0BMVoCYrAAxWQFisgLEZAWIyQoQkxUgJitA7OBdtlNryCfeGzr1zOd20ufceePszi783Cc5tSp2WgFisgLEZAWIyQoQkxUgJitATFaAmKwAMVkBYgdXtjvO3XV6p6lnvnM3fO5m3ztvFL5zj77zaTitADFZAWKyAsRkBYjJChCTFSAmK0BMVoCYrACxt8+P9//94juXlFP3ht5p6vZWNwr/HHduyp1WgJisADFZAWKyAsRkBYjJChCTFSAmK0BMVoDY1l22T7yB9c51r2Vw5dz9rFPr3qm/K3fZAheRFSAmK0BMVoCYrAAxWQFisgLEZAWIyQoQ21rZvt76c70svPMW1TtvM127c+u849xidcfUUzmtADFZAWKyAsRkBYjJChCTFSAmK0BMVoCYrACxrZXt2p3rz6md5Y5zN5Ke26ROPfOUOxfYU5xWgJisADFZAWKyAsRkBYjJChCTFSAmK0BMVoDYwZXt2tQm9ZzX21meu3F2x9Sq+M61652bY6cVICYrQExWgJisADFZAWKyAsRkBYjJChCTFSA2trJ9PTvrz7WpJeW5u2x3fu65+3d3PPFW4HN/sU4rQExWgJisADFZAWKyAsRkBYjJChCTFSAmK0DMyjYzdfPr1JLyzltU1+5c6J4z9Rs5rQAxWQFisgLEZAWIyQoQkxUgJitATFaAmKwAsbGV7RM3mjvOrV3vvPn1zjtld167/o3u/CSn/sucVoCYrAAxWQFisgLEZAWIyQoQkxUgJitATFaA2MGVrZtBf847T91le27dO7UNfeIyeG3qc3ZaAWKyAsRkBYjJChCTFSAmK0BMVoCYrAAxWQFib58f79PPALwUpxUgJitATFaAmKwAMVkBYrICxGQFiMkKEJMVICYrQExWgJisADFZAWKyAsRkBYjJChCTFSAmK0BMVoDYP6etuMfC1+T8AAAAAElFTkSuQmCC" alt="QR">
     </div>
-
-    <!-- Versión vacía -->
-    <div class="version-card">
-      <div class="version-title">📂 Versión vacía</div>
-      <div class="version-desc">Sin obras precargadas. Carga tú mismo cualquier guion. Para futuras obras o uso general.</div>
-      <div class="qr-row">
-        <img src="data:image/png;base64,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" alt="QR vacía">
-        <div class="qr-info">
-          <div class="url-pill">…/ensayo/</div>
-          <a class="open-btn ghost" href="https://fedekuper.github.io/ensayo/">Abrir →</a>
-        </div>
-      </div>
-    </div>
-
+    <div class="url-pill">fedekuper.github.io/ensayo/agosto.html</div>
+    <a class="open-btn" href="https://fedekuper.github.io/ensayo/agosto.html">Abrir la app →</a>
   </div>
 
   <hr class="divider">
@@ -76,15 +47,17 @@
       <div class="step"><div class="step-num">1</div><span>Abre el enlace en Chrome</span></div>
       <div class="step"><div class="step-num">2</div><span>Toca los <b>tres puntos</b> ⋮ arriba a la derecha</span></div>
       <div class="step"><div class="step-num">3</div><span>Toca <b>"Añadir a pantalla de inicio"</b></span></div>
+      <div class="step"><div class="step-num">4</div><span>Confirma — aparece el ícono como cualquier app</span></div>
     </div>
     <div class="platform">
       <div class="platform-title">🍎 iPhone / iPad (Safari)</div>
       <div class="step"><div class="step-num">1</div><span>Abre el enlace en <b>Safari</b></span></div>
       <div class="step"><div class="step-num">2</div><span>Toca el botón <b>compartir</b> □↑ abajo en el centro</span></div>
       <div class="step"><div class="step-num">3</div><span>Toca <b>"Añadir a pantalla de inicio"</b></span></div>
+      <div class="step"><div class="step-num">4</div><span>Toca <b>Añadir</b> — ya está instalada</span></div>
     </div>
   </div>
 
-  <p class="note">Una vez instalada funciona sin internet.<br>Los guiones se guardan en el dispositivo.</p>
+  <p class="note">El guion de Agosto viene incluido.<br>Una vez instalada funciona sin internet.</p>
 </body>
 </html>
